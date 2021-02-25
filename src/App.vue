@@ -1,18 +1,8 @@
 <template>
-  <v-app
-    id="mainweb"
-    :class="{
-      'xl-main-screen': $vuetify.breakpoint.xlOnly,
-      'lg-main-screen': $vuetify.breakpoint.lgOnly,
-      'md-main-screen': $vuetify.breakpoint.mdOnly,
-      'sm-main-screen': $vuetify.breakpoint.smOnly,
-      'xs-main-screen': $vuetify.breakpoint.xsOnly,
-    }"
-  >
-    <div>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-      <router-link to="/markets">About</router-link>
+  <v-app id="mainweb">
+    <div class="header-nav">
+      <div><router-link to="/">Home</router-link></div>
+      <div><router-link to="/markets">Markets</router-link></div>
     </div>
     <v-main>
       <router-view></router-view>
@@ -20,4 +10,15 @@
   </v-app>
 </template>
 <style lang="scss">
+.header-nav {
+  display: flex;
+  gap: 10px;
+  font-size: 24px;
+  height: 70px;
+  background: black;
+  align-items: center;
+  padding: 0px 5%;
+  width: 100%;
+  justify-content: flex-start;
+}
 </style>
