@@ -1,29 +1,29 @@
-# emdx-web-app
+# README #
 
-## Project setup
-```
-npm install
-```
+This README would normally document whatever steps are necessary to get your application up and running.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+### What is this repository for? ###
 
-### Compiles and minifies for production
-```
-npm run build
-```
+* Quick summary
+* Version
+* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
 
-### Run your unit tests
-```
-npm run test:unit
-```
+### How do I get set up? ###
 
-### Lints and fixes files
-```
-npm run lint
-```
+* Summary of set up
+* Configuration
+* Dependencies
+* Database configuration
+* How to run tests
+* Deployment instructions
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Contribution guidelines ###
+
+* Writing tests
+* Code review
+* Other guidelines
+
+### Who do I talk to? ###
+
+* Repo owner or admin
+* Other community or team contact

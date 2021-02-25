@@ -1,32 +1,23 @@
 <template>
-  <div id="app">
-    <div id="nav">
+  <v-app
+    id="mainweb"
+    :class="{
+      'xl-main-screen': $vuetify.breakpoint.xlOnly,
+      'lg-main-screen': $vuetify.breakpoint.lgOnly,
+      'md-main-screen': $vuetify.breakpoint.mdOnly,
+      'sm-main-screen': $vuetify.breakpoint.smOnly,
+      'xs-main-screen': $vuetify.breakpoint.xsOnly,
+    }"
+  >
+    <div>
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
+      <router-link to="/markets">About</router-link>
     </div>
-    <router-view />
-  </div>
+    <v-main>
+      <router-view></router-view>
+    </v-main>
+  </v-app>
 </template>
-
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
 </style>
