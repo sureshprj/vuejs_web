@@ -12,8 +12,8 @@
                 active-class="active-tab"
               >
                 <v-tabs-slider color="#00D46A" height="1px"></v-tabs-slider>
-                <v-tab class="normal-tab">All Products</v-tab>
-                <v-tab class="normal-tab">iEMDX</v-tab>
+                <v-tab class="normal-tab">All Markets</v-tab>
+                <v-tab class="normal-tab">IEMDX</v-tab>
                 <v-tab class="normal-tab">DAI</v-tab>
               </v-tabs>
             </v-col>
@@ -64,7 +64,7 @@
 
           <v-data-table
             :headers="getHeader"
-            :items="desserts"
+            :items="marketsData"
             :search="search"
             class="grid-sys"
             show-expand
@@ -83,8 +83,9 @@
                 <img src="../assets/star.svg" />
               </div>
             </template>
-            <template v-slot:item.name="{ item }">
-              <span class="first-col bold">{{ item.name }}</span>
+            <template v-slot:item.name="{ item }"> 
+              <span class="first-col bold">{{ item && item.name.split("/")[0] }}</span>
+              <span class="split-txt">/{{ item && item.name.split("/")[1] }} </span>
             </template>
             <template v-slot:item.change="{ item }">
               <span class="h-24-change">{{ item.change }}</span>
@@ -121,16 +122,7 @@
 <script lang="ts">
 import Vue from "vue";
 import GridLineChart from "@/components/GridLineChart.vue";
-const star = `<svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path opacity="0.2" d="M10 0L12.2451 6.90983H19.5106L13.6327 11.1803L15.8779 18.0902L10 13.8197L4.12215 18.0902L6.36729 11.1803L0.489435 6.90983H7.75486L10 0Z" fill="white"/>
-</svg>
-`;
 
-export const getImageURL = (image: any) => {
-  const blob = image ? new Blob([image], { type: "image/svg+xml" }) : "";
-  const url = blob ? URL.createObjectURL(blob) : "";
-  return url;
-};
 const sortList: any = [
   {
     class: `sort-icon`,
@@ -144,11 +136,6 @@ export default Vue.extend({
   },
   data: () => ({
     search: "",
-    sort: "Top Performers",
-    perpetual: true,
-    oct2020: true,
-    nov2020: true,
-    elements: sortList,
     headers: [
       {
         text: "",
@@ -210,9 +197,10 @@ export default Vue.extend({
         sortable: false,
       },
     ],
-    desserts: [
+
+    marketsData: [
       {
-        name: "BTCUSDT PERP",
+        name: "BTC/USDT",
         lastPrice: 9875.43,
         high: 0.02462176,
         low: 43.45998912,
@@ -222,7 +210,7 @@ export default Vue.extend({
         id: 1,
       },
       {
-        name: "ETHUSDT PERP",
+        name: "LTC/USDT",
         lastPrice: 9875.43,
         high: 0.02462176,
         low: 43.45998912,
@@ -232,7 +220,7 @@ export default Vue.extend({
         id: 2,
       },
       {
-        name: "BTCUSDT PERP",
+        name: "ETH/USDT",
         lastPrice: 9875.43,
         high: 0.02462176,
         low: 43.459989,
@@ -242,7 +230,7 @@ export default Vue.extend({
         id: 3,
       },
       {
-        name: "BTCUSDT PERP",
+        name: "BTC/USDT",
         lastPrice: 9875.43,
         high: 0.024621,
         low: 43.459989,
@@ -252,7 +240,7 @@ export default Vue.extend({
         id: 4,
       },
       {
-        name: "BTCUSDT PERP",
+        name: "ETH/USDT",
         lastPrice: 9875.43,
         high: 0.02462176,
         low: 43.45998912,
@@ -262,7 +250,7 @@ export default Vue.extend({
         id: 5,
       },
       {
-        name: "BTCUSDT PERP",
+        name: "BTC/USDT",
         lastPrice: 9875.43,
         high: 0.02462176,
         low: 43.45998912,
@@ -272,7 +260,7 @@ export default Vue.extend({
         id: 6,
       },
       {
-        name: "BTCUSDT PERP",
+        name: "BTC/USDT",
         lastPrice: 9875.43,
         high: 0.02462176,
         low: 43.45998912,
@@ -282,7 +270,7 @@ export default Vue.extend({
         id: 7,
       },
       {
-        name: "BTCUSDT PERP",
+        name: "BTC/USDT",
         lastPrice: 9875.43,
         high: 0.02462176,
         low: 43.45998912,
@@ -292,7 +280,7 @@ export default Vue.extend({
         id: 8,
       },
       {
-        name: "BTCUSDT PERP",
+        name: "BTC/USDT",
         lastPrice: 9875.43,
         high: 0.02462176,
         low: 43.45998912,
@@ -302,7 +290,7 @@ export default Vue.extend({
         id: 9,
       },
       {
-        name: "BTCUSDT PERP",
+        name: "BTC/USDT",
         lastPrice: 9875.43,
         high: 0.02462176,
         low: 43.45998912,
@@ -312,7 +300,7 @@ export default Vue.extend({
         id: 10,
       },
       {
-        name: "BTCUSDT PERP",
+        name: "BTC/USDT",
         lastPrice: 9875.43,
         high: 0.02462176,
         low: 43.45998912,
@@ -322,7 +310,7 @@ export default Vue.extend({
         id: 11,
       },
       {
-        name: "BTCUSDT PERP",
+        name: "BTC/USDT",
         lastPrice: 9875.43,
         high: 0.02462176,
         low: 43.45998912,
@@ -336,20 +324,27 @@ export default Vue.extend({
   computed: {
     getHeader: function () {
       let head: any = this.headers;
+       if ((this.$vuetify as any).breakpoint.xlOnly) {
+        head.map((col: any) => {
+          if (col.value == "data-table-expand") {
+            col["width"] = "100px";
+          }
+        });
+      }
+       if ((this.$vuetify as any).breakpoint.lgOnly) {
+        head.map((col: any) => {
+          if (col.value == "data-table-expand") {
+            col["width"] = "70px";
+          }
+        });
+      }
       if ((this.$vuetify as any).breakpoint.mdOnly) {
         head.map((col: any) => {
-          if (col.value == "change") {
-            col["width"] = "80px";
-          }
-          if (col.value == "volume") {
-            col["width"] = "85px";
-          }
           if (col.value == "data-table-expand") {
-            col["width"] = "25px";
+            col["width"] = "35px";
           }
-
           if (col.value == "star") {
-            col["width"] = "40px";
+            col["width"] = "60px";
           }
         });
       }
@@ -441,18 +436,6 @@ export default Vue.extend({
   .max-width-screen {
     margin: 0px 5%;
   }
-  .desc {
-    text-align: center;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 18px;
-    line-height: 23px;
-    display: flex;
-    align-items: center;
-    opacity: 0.7;
-    padding: 55px 0px 0px 0px;
-    margin: 0px 5%;
-  }
   .line-chart-section {
     padding: 34px 0px 0px 0px;
     flex-wrap: wrap;
@@ -467,7 +450,7 @@ export default Vue.extend({
     font-size: 24px;
     line-height: 31px;
     color: #1262ff;
-    padding: 42px 12px 20px 12px;
+    padding: 0px 0px 28px 0px;
   }
 
   /*data table */
@@ -475,17 +458,6 @@ export default Vue.extend({
     background-image: url("../assets/sort_asc_icon.svg");
     width: 14px;
     height: 14px;
-  }
-  .dropdown-market-items {
-    display: flex;
-    justify-content: right;
-    align-items: center;
-    width: 100%;
-    font-size: 12px;
-    line-height: 16px;
-    .margin-right-15 {
-      margin-right: 15px;
-    }
   }
 
   .market-data-table {
@@ -497,12 +469,6 @@ export default Vue.extend({
         border-bottom: none !important;
       }
     }
-    .sort-column {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      margin-left: auto;
-    }
     .expand-icon {
       opacity: 0.3;
       cursor: pointer;
@@ -510,41 +476,6 @@ export default Vue.extend({
     .expand-icon-bright {
       opacity: 1;
       cursor: pointer;
-    }
-    .market-dropdown {
-      background-color: rgba(255, 255, 255, 0.05);
-      height: 32px;
-      width: 200px;
-      max-width: 200px;
-      padding: 0px;
-      margin: 0px;
-      .margin-15 {
-        margin: 0px 15px;
-      }
-
-      .dropdown-market {
-        display: flex;
-        align-items: center;
-        width: 100%;
-        font-size: 12px;
-        line-height: 16px;
-      }
-      .mdi-menu-down::before {
-        content: url("../assets/lang-arrow.svg");
-        top: -17px;
-        position: absolute;
-        right: 0px;
-        opacity: 0.8;
-      }
-      .v-input__slot:before {
-        border-color: rgba(255, 255, 255, 0.1) !important;
-      }
-      .v-input__control {
-        height: 32px;
-      }
-      .v-input__slot {
-        margin: 0px;
-      }
     }
     .col-hight {
       padding: 0px;
@@ -588,38 +519,12 @@ export default Vue.extend({
         font-weight: bold;
       }
     }
-    .more-btn {
-      background-color: transparent !important;
-      box-shadow: 0 0 30px rgba(0, 0, 0, 0.3) !important;
-      border-radius: 6px;
-      border: 1px solid;
-      border-color: #00d46a;
-      width: 80px !important;
-      height: 32px;
-      font-family: "PT Sans";
-      font-size: 16px !important;
-      line-height: 21px;
-      .v-btn__content {
-        gap: 5px;
-      }
-      h1 {
-        font-size: 12px !important;
-        line-height: 21px;
-        background: -webkit-linear-gradient(
-          90.44deg,
-          #00d46a 7.72%,
-          #1262ff 126.2%
-        );
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-    }
     .grid-sys {
       font-family: "PT Sans";
       font-style: normal;
       font-weight: normal;
       font-size: 16px;
-      line-height: 21px !important;
+      line-height: 19px !important;
       color: rgba(255, 255, 255, 0.7) !important;
       background: transparent !important;
       td {
@@ -634,23 +539,13 @@ export default Vue.extend({
       .first-col {
         font-weight: bold;
       }
+      .split-txt {
+        font-weight: 400;
+        opacity: 0.5;
+
+      }
       .h-24-change {
         color: #00b865;
-      }
-      .trade-btn {
-        background-image: url("../assets/trade_btn.png");
-        width: 80px;
-        height: 32px;
-        border-radius: 6px;
-        background-color: transparent !important;
-        padding: 1px;
-        button {
-          background: transparent !important;
-          width: 100% !important;
-          height: 100% !important;
-          padding: 1px !important;
-          border-radius: 6px;
-        }
       }
     }
 
@@ -669,12 +564,13 @@ export default Vue.extend({
           font-style: italic !important;
           font-weight: normal !important;
           font-size: 14px !important;
-          line-height: 18px !important;
+          line-height: 16px !important;
           color: rgba(255, 255, 255, 0.5);
           left: 10px !important;
+          top: 7px;
         }
         .input {
-          width: 200px;
+          width: 272px;
           font-style: italic !important;
           font-weight: normal !important;
           font-size: 14px !important;
@@ -713,118 +609,19 @@ export default Vue.extend({
       color: rgba(255, 255, 255, 0.7);
       border-bottom: none !important;
     }
-    .market-menu {
-      align-items: center;
-      padding: 0px 20px;
-      .items-list {
-        display: flex;
-        gap: 50px;
-        flex-wrap: wrap;
-      }
-      .menu-button {
-        background: #070f18;
-        border-radius: 4px;
-        height: 30px;
-        .menu-cls {
-          font-style: normal;
-          font-weight: normal !important;
-          font-size: 14px !important;
-          line-height: 18px !important;
-          text-align: center;
-          color: rgba(255, 255, 255, 0.5) !important;
-          text-transform: capitalize;
-          letter-spacing: 0;
-          min-width: 110px;
-        }
-        .active-menu {
-          background: #1262ff;
-          border-radius: 4px;
-          font-style: normal;
-          font-weight: bold !important;
-          font-size: 14px !important;
-          line-height: 18px !important;
-          text-align: center;
-          color: #000000 !important;
-        }
-      }
-      .checkbox-list {
-        flex-direction: row;
-        gap: 30px;
-        height: 30px;
-        .v-application .primary--text {
-          color: #1262ff !important;
-          caret-color: transparent !important;
-        }
-        .v-label {
-          font-size: 12px;
-          line-height: 16px;
-          color: rgba(255, 255, 255, 0.5);
-        }
-        .v-icon.v-icon--dense {
-          font-size: 17px;
-        }
-      }
-    }
   }
-
-  //start md screen
-  @media only screen and (min-width: 960px) and (max-width: 1263px) {
-    .market-data-table {
-      margin: 0px -12px;
-      .h-txt {
-        font-size: 12px !important;
-        line-height: 16px !important;
-      }
-      .grid-sys {
-        font-size: 14px;
-        line-height: 18px;
-      }
-      .market-dropdown {
-        width: 146px;
-        .margin-15 {
-          margin: 0px 8px;
-        }
-      }
-      .v-input--selection-controls__input {
-        width: 14px;
-        height: 14px;
-      }
-
-      .market-menu {
-        padding: 0px 10px;
-        .items-list {
-          gap: 28px;
-          padding: 12px 20px;
-        }
-        .checkbox-list {
-          gap: 12px;
-        }
-        .menu-button {
-          .active-menu {
-            font-size: 13px !important;
-            line-height: 17px !important;
-          }
-          .menu-cls {
-            font-size: 13px !important;
-            line-height: 17px !important;
-            min-width: 90px;
-            padding: 0px 7px;
-          }
-        }
-      }
-      .v-data-table > .v-data-table__wrapper > table > tbody > tr > td,
-      .v-data-table > .v-data-table__wrapper > table > tbody > tr > th,
-      .v-data-table > .v-data-table__wrapper > table > thead > tr > td,
-      .v-data-table > .v-data-table__wrapper > table > thead > tr > th,
-      .v-data-table > .v-data-table__wrapper > table > tfoot > tr > td,
-      .v-data-table > .v-data-table__wrapper > table > tfoot > tr > th {
-        padding: 0px 7px;
-      }
-    }
-  }
-  //end md screen
+}
   //start sm screen
   @media only screen and (max-width: 959px) {
+    .markets {
+      .app-head-txt {
+        font-size: 36px;
+        line-height: 48px;
+      }
+      .max-width-screen {
+        margin: 0px 3.2%;
+      }
+    }
     .market-data-table {
       margin: 0px -12px;
       .h-txt {
@@ -832,42 +629,12 @@ export default Vue.extend({
         line-height: 16px !important;
         white-space: pre-wrap;
       }
-      .search-box {
-        padding-right: 30px;
-      }
-      .v-data-table-header {
-        .text-start {
-          text-transform: lowercase !important;
-        }
-        .text-start::first-letter {
-          text-transform: capitalize !important;
-        }
-      }
       .grid-sys {
         font-size: 12px;
         line-height: 16px;
-        .trade-btn {
-          width: 61px;
-          background-size: 61px 32px;
-          background-position: center;
-          overflow: hidden;
-          button {
-            min-width: 61px;
-          }
-        }
         .first-col {
           white-space: pre;
         }
-      }
-      .market-dropdown {
-        width: 146px;
-        .margin-15 {
-          margin: 0px 8px;
-        }
-      }
-      .v-input--selection-controls__input {
-        width: 14px;
-        height: 14px;
       }
       .sort-column {
         margin-left: 10px;
@@ -878,55 +645,50 @@ export default Vue.extend({
       .pad-right-10px {
         padding-right: 10px !important;
       }
-      .market-menu {
-        padding: 0px 10px;
-        .items-list {
-          justify-content: center;
-          align-items: center;
-          gap: 28px;
-          padding: 12px 20px;
-        }
-        .checkbox-list {
-          gap: 12px;
-          .v-input--selection-controls.v-input--dense:not(.v-input--switch)
-            .v-input--selection-controls__ripple {
-            top: calc(50% - 19px);
-          }
-          .v-input--selection-controls.v-input--dense
-            .v-input--selection-controls__ripple {
-            width: 24px;
-            height: 24px;
-            left: -12px;
-          }
-        }
-        .menu-button {
-          .active-menu {
-            font-size: 13px !important;
-            line-height: 17px !important;
-          }
-          .menu-cls {
-            font-size: 13px !important;
-            line-height: 17px !important;
-            min-width: 120px;
-            padding: 0px 7px;
-          }
-        }
-      }
       .line-chart-grid {
         max-width: 70px;
         height: 35px;
         overflow: hidden;
       }
-      .v-data-table > .v-data-table__wrapper > table > tbody > tr > td,
-      .v-data-table > .v-data-table__wrapper > table > tbody > tr > th,
-      .v-data-table > .v-data-table__wrapper > table > thead > tr > td,
-      .v-data-table > .v-data-table__wrapper > table > thead > tr > th,
-      .v-data-table > .v-data-table__wrapper > table > tfoot > tr > td,
-      .v-data-table > .v-data-table__wrapper > table > tfoot > tr > th {
-        padding: 0px 3px;
-      }
     }
   }
   //end sm screen
-}
+
+  //start md screen
+  @media only screen and (min-width: 960px) and (max-width: 1264px) {
+    .markets {
+      .max-width-screen {
+        margin: 0px 1%;
+      }
+    }
+    .market-data-table {
+      margin: 0px -12px;
+    }
+  }
+  //end md screen
+
+  //start lg screen
+  @media only screen and (min-width: 1264px) and (max-width: 1904px) {
+    .markets {
+      .max-width-screen {
+        margin: 0px 50px;
+      }
+      .market-data-table {
+        margin: 0px -12px;
+      }
+    }
+  }
+  //end lg screen
+   //start xl screen
+  @media only screen and (min-width: 1904){
+    .markets {
+      .max-width-screen {
+        margin: 0px 50px;
+      }
+      .market-data-table {
+        margin: 0px -12px;
+      }
+    }
+  }
+  //end xl screen
 </style>
