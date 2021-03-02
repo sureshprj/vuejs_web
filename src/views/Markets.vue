@@ -20,19 +20,10 @@
             <v-col
               cols="2"
               sm="2"
-              class="search-box"
-              v-if="$vuetify.breakpoint.smAndDown"
-            >
-              <img src="../assets/search_icon.svg" />
-            </v-col>
-            <v-col
-              cols="2"
-              sm="2"
               md="6"
               lg="6"
               xl="6"
               class="search-box"
-              v-if="!$vuetify.breakpoint.smAndDown"
             >
               <div class="grid-input">
                 <v-text-field
@@ -83,9 +74,13 @@
                 <img src="../assets/star.svg" />
               </div>
             </template>
-            <template v-slot:item.name="{ item }"> 
-              <span class="first-col bold">{{ item && item.name.split("/")[0] }}</span>
-              <span class="split-txt">/{{ item && item.name.split("/")[1] }} </span>
+            <template v-slot:item.name="{ item }">
+              <span class="first-col bold">{{
+                item && item.name.split("/")[0]
+              }}</span>
+              <span class="split-txt"
+                >/{{ item && item.name.split("/")[1] }}
+              </span>
             </template>
             <template v-slot:item.change="{ item }">
               <span class="h-24-change">{{ item.change }}</span>
@@ -217,6 +212,7 @@ export default Vue.extend({
         change: "+8.32%",
         volume: "1234.01K",
         line: "1%",
+        maxLeverage: "100x",
         id: 2,
       },
       {
@@ -226,6 +222,7 @@ export default Vue.extend({
         low: 43.459989,
         change: "+8.32%",
         volume: "1234.01K",
+        maxLeverage: "100x",
         line: "1%",
         id: 3,
       },
@@ -237,6 +234,7 @@ export default Vue.extend({
         change: "+8.32%",
         volume: "1234.01K",
         line: "1%",
+        maxLeverage: "100x",
         id: 4,
       },
       {
@@ -247,6 +245,7 @@ export default Vue.extend({
         change: "+8.32%",
         volume: "1234.01K",
         line: "1%",
+        maxLeverage: "100x",
         id: 5,
       },
       {
@@ -257,6 +256,7 @@ export default Vue.extend({
         change: "+8.32%",
         volume: "1234.01K",
         line: "1%",
+        maxLeverage: "100x",
         id: 6,
       },
       {
@@ -267,6 +267,7 @@ export default Vue.extend({
         change: "+8.32%",
         volume: "1234.01K",
         line: "1%",
+        maxLeverage: "100x",
         id: 7,
       },
       {
@@ -277,6 +278,7 @@ export default Vue.extend({
         change: "+8.32%",
         volume: "1234.01K",
         line: "1%",
+        maxLeverage: "100x",
         id: 8,
       },
       {
@@ -287,6 +289,7 @@ export default Vue.extend({
         change: "+8.32%",
         volume: "1234.01K",
         line: "1%",
+        maxLeverage: "100x",
         id: 9,
       },
       {
@@ -297,6 +300,7 @@ export default Vue.extend({
         change: "+8.32%",
         volume: "1234.01K",
         line: "1%",
+        maxLeverage: "200x",
         id: 10,
       },
       {
@@ -307,6 +311,7 @@ export default Vue.extend({
         change: "+8.32%",
         volume: "1234.01K",
         line: "1%",
+        maxLeverage: "100x",
         id: 11,
       },
       {
@@ -317,6 +322,7 @@ export default Vue.extend({
         change: "+8.32%",
         volume: "1234.01K",
         line: "1%",
+        maxLeverage: "100x",
         id: 12,
       },
     ],
@@ -324,14 +330,14 @@ export default Vue.extend({
   computed: {
     getHeader: function () {
       let head: any = this.headers;
-       if ((this.$vuetify as any).breakpoint.xlOnly) {
+      if ((this.$vuetify as any).breakpoint.xlOnly) {
         head.map((col: any) => {
           if (col.value == "data-table-expand") {
             col["width"] = "100px";
           }
         });
       }
-       if ((this.$vuetify as any).breakpoint.lgOnly) {
+      if ((this.$vuetify as any).breakpoint.lgOnly) {
         head.map((col: any) => {
           if (col.value == "data-table-expand") {
             col["width"] = "70px";
@@ -354,23 +360,21 @@ export default Vue.extend({
             text: "",
             value: "star",
             align: "center",
-            class: "h-txt pad-left-10px",
+            class: "h-txt",
             sortable: false,
-            width: "20px",
+            width: "40px",
           },
           {
-            text: "Market / \n24h Volume",
+            text: "Market",
             value: "name",
             class: "h-txt",
-            width: "80px",
           },
           {
-            text: "Last price /\n24h Change",
+            text: "Last price",
             align: "left",
             value: "lastPrice",
             class: "h-txt",
             sortable: false,
-            width: "66px",
           },
           {
             text: "24h High",
@@ -378,7 +382,6 @@ export default Vue.extend({
             value: "high",
             class: "h-txt",
             sortable: false,
-            width: "58px",
           },
           {
             text: "24h Low",
@@ -386,29 +389,33 @@ export default Vue.extend({
             value: "low",
             class: "h-txt",
             sortable: false,
-            width: "55px",
           },
           {
-            text: "Max Leverage",
+            text: "24h Change",
+            align: "left",
+            value: "change",
+            class: "h-txt",
+            sortable: false,
+          },
+          {
+            text: "24h Volume",
             align: "left",
             value: "volume",
             class: "h-txt",
             sortable: false,
-            width: "60px",
           },
           {
-            text: "",
-            value: "line",
+            text: "Max Leverage",
+            value: "maxLeverage",
             align: "left",
+            class: "h-txt",
             sortable: false,
-            width: "60px",
           },
           {
             text: "",
             value: "data-table-expand",
             align: "center",
             sortable: false,
-            width: "12px",
           },
         ];
       }
@@ -542,7 +549,6 @@ export default Vue.extend({
       .split-txt {
         font-weight: 400;
         opacity: 0.5;
-
       }
       .h-24-change {
         color: #00b865;
@@ -603,7 +609,7 @@ export default Vue.extend({
     .h-txt {
       font-style: normal;
       font-weight: normal;
-      font-size: 14px !important;
+      font-size: 14px;
       line-height: 18px;
       text-transform: capitalize;
       color: rgba(255, 255, 255, 0.7);
@@ -611,84 +617,95 @@ export default Vue.extend({
     }
   }
 }
-  //start sm screen
-  @media only screen and (max-width: 959px) {
-    .markets {
-      .app-head-txt {
-        font-size: 36px;
-        line-height: 48px;
-      }
-      .max-width-screen {
-        margin: 0px 3.2%;
+//start sm screen
+@media only screen and (max-width: 959px) {
+  .markets {
+    .max-width-screen {
+      margin: 0px 3.2%;
+    }
+  }
+  .market-data-table {
+    margin: 0px -12px;
+    .h-txt {
+      font-size: 11px !important;
+      line-height: 16px !important;
+      white-space: pre-wrap;
+    }
+    .grid-sys {
+      font-size: 12px !important;
+      line-height: 16px !important;
+      .first-col {
+        white-space: pre !important;
       }
     }
-    .market-data-table {
-      margin: 0px -12px;
-      .h-txt {
-        font-size: 11px !important;
-        line-height: 16px !important;
-        white-space: pre-wrap;
-      }
-      .grid-sys {
-        font-size: 12px;
-        line-height: 16px;
-        .first-col {
-          white-space: pre;
+     .col-hight .tab-cls .normal-tab{
+       padding: 0px 15px !important;
+     }
+    .sort-column {
+      margin-left: 10px;
+    }
+    .pad-left-10px {
+      padding-left: 0px !important;
+    }
+    .pad-right-10px {
+      padding-right: 10px !important;
+    }
+    .v-data-table > .v-data-table__wrapper > table > tbody > tr > td,
+    .v-data-table > .v-data-table__wrapper > table > tbody > tr > th,
+    .v-data-table > .v-data-table__wrapper > table > thead > tr > td,
+    .v-data-table > .v-data-table__wrapper > table > thead > tr > th,
+    .v-data-table > .v-data-table__wrapper > table > tfoot > tr > td,
+    .v-data-table > .v-data-table__wrapper > table > tfoot > tr > th {
+      padding: 0px 3px;
+      height: 40px !important;
+    }
+    
+    .search-box {
+      .grid-input {
+        .input {
+          width: 212px !important;
         }
       }
-      .sort-column {
-        margin-left: 10px;
-      }
-      .pad-left-10px {
-        padding-left: 10px !important;
-      }
-      .pad-right-10px {
-        padding-right: 10px !important;
-      }
-      .line-chart-grid {
-        max-width: 70px;
-        height: 35px;
-        overflow: hidden;
-      }
     }
   }
-  //end sm screen
+}
+//end sm screen
 
-  //start md screen
-  @media only screen and (min-width: 960px) and (max-width: 1264px) {
-    .markets {
-      .max-width-screen {
-        margin: 0px 1%;
-      }
+//start md screen
+@media only screen and (min-width: 960px) and (max-width: 1264px) {
+  .markets {
+    .max-width-screen {
+      margin: 0px 1%;
+    }
+  }
+  .market-data-table {
+    margin: 0px -12px;
+  }
+}
+//end md screen
+
+//start lg screen
+@media only screen and (min-width: 1264px) and (max-width: 1904px) {
+  .markets {
+    .max-width-screen {
+      margin: 0px 50px;
     }
     .market-data-table {
       margin: 0px -12px;
     }
   }
-  //end md screen
-
-  //start lg screen
-  @media only screen and (min-width: 1264px) and (max-width: 1904px) {
-    .markets {
-      .max-width-screen {
-        margin: 0px 50px;
-      }
-      .market-data-table {
-        margin: 0px -12px;
-      }
+}
+//end lg screen
+//start xl screen
+@media only screen and (min-width: 1904) {
+  .markets {
+    .max-width-screen {
+      margin: 0px 50px;
+    }
+    .market-data-table {
+      margin: 0px -12px;
     }
   }
-  //end lg screen
-   //start xl screen
-  @media only screen and (min-width: 1904){
-    .markets {
-      .max-width-screen {
-        margin: 0px 50px;
-      }
-      .market-data-table {
-        margin: 0px -12px;
-      }
-    }
-  }
-  //end xl screen
+}
+//end xl screen
 </style>
