@@ -1,17 +1,17 @@
 <template>
   <div class="home">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+    <CreateNewWallet></CreateNewWallet>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
+import CreateNewWallet from "@/components/CreateNewWallet.vue"; // @ is an alias to /src
 
 export default Vue.extend({
   name: "Home",
   components: {
-    HelloWorld
+    CreateNewWallet
   }
 });
 </script>
